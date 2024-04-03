@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD API Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2, h3 {
+            color: #333;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        input[type="text"], input[type="email"], input[type="number"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 5px;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        th:last-child, td:last-child {
+            text-align: center;
+        }
+
+        .delete-btn {
+            background-color: #ff3333;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+
+        .delete-btn:hover {
+            background-color: #cc0000;
+        }
+
+        .master-checkbox {
+            display: inline-block;
+            width: auto;
+            margin-bottom: 10px;
+        }
+
+        label {
+            display: inline-block;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>CRUD API Test</h2>
+
+    <!-- Formulário para adicionar escola -->
+    <form id="addSchoolForm">
+        <h3>Adicionar Escola</h3>
+        <input type="text" id="schoolName" name="schoolName" placeholder="Nome da Escola" required><br>
+        <input type="email" id="schoolEmail" name="schoolEmail" placeholder="Email da Escola" required><br>
+        <input type="submit" value="Adicionar Escola">
+    </form>
+
+    <!-- Formulário para adicionar professor -->
+    <form id="addProfessorForm">
+        <h3>Adicionar Professor</h3>
+        <input type="text" id="professorName" name="professorName" placeholder="Nome do Professor" required><br>
+        <input type="text" id="professorSalary" name="professorSalary" placeholder="Salário" required><br>
+        <input type="checkbox" id="professorMaster" name="professorMaster" class="master-checkbox">
+        <label for="professorMaster">Mestre (Sim/Não)</label><br>
+        <input type="text" id="professorAddress" name="professorAddress" placeholder="Endereço" required><br>
+        <input type="number" id="professorSchoolId" name="professorSchoolId" placeholder="ID da Escola" required><br>
+        <input type="submit" value="Adicionar Professor">
+    </form>
+
+    <!-- Formulário para adicionar aluno -->
+    <form id="addAlunoForm">
+        <h3>Adicionar Aluno</h3>
+        <input type="text" id="alunoName" name="alunoName" placeholder="Nome do Aluno" required><br>
+        <input type="number" id="alunoAge" name="alunoAge" placeholder="Idade" required><br>
+        <input type="submit" value="Adicionar Aluno">
+    </form>
+
+    <!-- Formulário para adicionar turma -->
+    <form id="addTurmaForm">
+        <h3>Adicionar Turma</h3>
+        <input type="text" id="turmaName" name="turmaName" placeholder="Nome da Turma" required><br>
+        <input type="number" id="turmaSchoolId" name="turmaSchoolId" placeholder="ID da Escola" required><br>
+        <input type="submit" value="Adicionar Turma">
+    </form>
+
+    <!-- Tabela para exibir escolas -->
+    <h3>Escolas</h3>
+    <table id="schoolTable">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Conteúdo da tabela será preenchido via JavaScript -->
+        </tbody>
+    </table>
+
+    <!-- Tabela para exibir professores -->
+    <h3>Professores</h3>
+    <table id="professorTable">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Salário</th>
+            <th>Mestre</th>
+            <th>Endereço</th>
+            <th>ID da Escola</th>
+            <th>Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Conteúdo da tabela será preenchido via JavaScript -->
+        </tbody>
+    </table>
+
+    <!-- Tabela para exibir alunos -->
+    <h3>Alunos</h3>
+    <table id="alunoTable">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Idade</th>
+            <th>Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Conteúdo da tabela será preenchido via JavaScript -->
+        </tbody>
+    </table>
+
+    <!-- Tabela para exibir turmas -->
+    <h3>Turmas</h3>
+    <table id="turmaTable">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>ID da Escola</th>
+            <th>Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Conteúdo da tabela será preenchido via JavaScript -->
+        </tbody>
+    </table>
+</div>
+
+<script>
+    // Função para buscar e exibir escolas
+    function fetchAndDisplaySchools() {
+        fetch('/escolas')
+            .then(response => response.json())
+            .then(data => {
+                const schoolTableBody = document.querySelector('#schoolTable tbody');
+                schoolTableBody.innerHTML = '';
+                data.forEach(school => {
+                    const row = `<tr>
+                            <td>${school.id}</td>
+                            <td>${school.nome}</td>
+                            <td>${school.email}</td>
+                            <td><button onclick="deleteSchool(${school.id})">Excluir</button></td>
+                        </tr>`;
+                    schoolTableBody.insertAdjacentHTML('beforeend', row);
+                });
+            });
+    }
+
+    // Função para buscar e exibir professores
+    function fetchAndDisplayProfessors() {
+        fetch('/professores')
+            .then(response => response.json())
+            .then(data => {
+                const professorTableBody = document.querySelector('#professorTable tbody');
+                professorTableBody.innerHTML = '';
+                data.forEach(professor => {
+                    const row = `<tr>
+                            <td>${professor.id}</td>
+                            <td>${professor.nome}</td>
+                            <td>${professor.salario}</td>
+                            <td>${professor.mestre}</td>
+                            <td>${professor.endereco}</td>
+                            <td>${professor.idEscola}</td>
+                            <td><button onclick="deleteProfessor(${professor.id})">Excluir</button></td>
+                        </tr>`;
+                    professorTableBody.insertAdjacentHTML('beforeend', row);
+                });
+            });
+    }
+
+    // Função para buscar e exibir alunos
+    function fetchAndDisplayAlunos() {
+        fetch('/alunos')
+            .then(response => response.json())
+            .then(data => {
+                const alunoTableBody = document.querySelector('#alunoTable tbody');
+                alunoTableBody.innerHTML = '';
+                data.forEach(aluno => {
+                    const row = `<tr>
+                            <td>${aluno.id}</td>
+                            <td>${aluno.nome}</td>
+                            <td>${aluno.idade}</td>
+                            <td><button onclick="deleteAluno(${aluno.id})">Excluir</button></td>
+                        </tr>`;
+                    alunoTableBody.insertAdjacentHTML('beforeend', row);
+                });
+            });
+    }
+
+    // Função para buscar e exibir turmas
+    function fetchAndDisplayTurmas() {
+        fetch('/turmas')
+            .then(response => response.json())
+            .then(data => {
+                const turmaTableBody = document.querySelector('#turmaTable tbody');
+                turmaTableBody.innerHTML = '';
+                data.forEach(turma => {
+                    const row = `<tr>
+                            <td>${turma.id}</td>
+                            <td>${turma.nome}</td>
+                            <td>${turma.idEscola}</td>
+                            <td><button onclick="deleteTurma(${turma.id})">Excluir</button></td>
+                        </tr>`;
+                    turmaTableBody.insertAdjacentHTML('beforeend', row);
+                });
+            });
+    }
+
+    // Função para adicionar escola
+    document.getElementById('addSchoolForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const formData = new FormData(this);
+        fetch('/escolas', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => {
+                if (response.ok) {
+                    fetchAndDisplaySchools();
+                    this.reset();
+                } else {
+                    console.error('Erro ao adicionar escola');
+                }
+            });
+    });
+
+    // Função para adicionar professor
+    document.getElementById('addProfessorForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const formData = new FormData(this);
+        fetch('/professores', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => {
+                if (response.ok) {
+                    fetchAndDisplayProfessors();
+                    this.reset();
+                } else {
+                    console.error('Erro ao adicionar professor');
+                }
+            });
+    });
+
+    // Função para adicionar aluno
+    document.getElementById('addAlunoForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const formData = new FormData(this);
+        fetch('/alunos', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => {
+                if (response.ok) {
+                    fetchAndDisplayAlunos();
+                    this.reset();
+                } else {
+                    console.error('Erro ao adicionar aluno');
+                }
+            });
+    });
+
+    // Função para adicionar turma
+    document.getElementById('addTurmaForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const formData = new FormData(this);
+        fetch('/turmas', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => {
+                if (response.ok) {
+                    fetchAndDisplayTurmas();
+                    this.reset();
+                } else {
+                    console.error('Erro ao adicionar turma');
+                }
+            });
+    });
+
+    // Função para excluir escola
+    function deleteSchool(id) {
+        fetch(`/escolas/${id}`, {
+            method: 'DELETE'
+        })
+            .then(response => {
+                if (response.ok) {
+                    fetchAndDisplaySchools();
+                } else {
+                    console.error('Erro ao excluir escola');
+                }
+            });
+    }
+
+    // Função para excluir professor
+    function deleteProfessor(id) {
+        fetch(`/professores/${id}`, {
+            method: 'DELETE'
+        })
+            .then(response => {
+                if (response.ok) {
+                    fetchAndDisplayProfessors();
+                } else {
+                    console.error('Erro ao excluir professor');
+                }
+            });
+    }
+
+    // Função para excluir aluno
+    function deleteAluno(id) {
+        fetch(`/alunos/${id}`, {
+            method: 'DELETE'
+        })
+            .then(response => {
+                if (response.ok) {
+                    fetchAndDisplayAlunos();
+                } else {
+                    console.error('Erro ao excluir aluno');
+                }
+            });
+    }
+
+    // Função para excluir turma
+    function deleteTurma(id) {
+        fetch(`/turmas/${id}`, {
+            method: 'DELETE'
+        })
+            .then(response => {
+                if (response.ok) {
+                    fetchAndDisplayTurmas();
+                } else {
+                    console.error('Erro ao excluir turma');
+                }
+            });
+    }
+
+    // Carregar dados iniciais ao carregar a página
+    document.addEventListener('DOMContentLoaded', function() {
+        fetchAndDisplaySchools();
+        fetchAndDisplayProfessors();
+        fetchAndDisplayAlunos();
+        fetchAndDisplayTurmas();
+    });
+</script>
+</body>
+</html>
